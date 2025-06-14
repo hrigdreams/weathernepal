@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check the Weather of Major Cities in Nepal</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Check the Weather of Major Cities in Nepal</h1>
+    </div>
+    <div class="container">
+        <h2 class="form-title">Enter the city of Nepal</h2>
+    
+        <form action="/" id="form" class="form" method="POST">
+            <select name="type" class="form-select" id="citySelect">
+                <option value="">Select a city</option>
+                <option value="27.716667,85.316667">Kathmandu</option>
+                <option value="28.233333,83.983333">Pokhara</option>
+                <option value="27.666667,85.316667">Lalitpur</option>
+                <option value="26.483333,87.283333">Biratnagar</option>
+                <option value="27.683333,84.433333">Bharatpur</option>
+                <option value="27.000000,84.866667">Birganj</option>
+                <option value="27.700000,83.450000">Butwal</option>
+                <option value="26.816667,87.283333">Dharan</option>
+                <option value="27.671111,85.429167">Bhaktapur</option>
+                <option value="26.716667,85.916667">Janakpur</option>
+                <option value="27.416667,85.033333">Hetauda</option>
+                <option value="28.050000,81.616667">Nepalgunj</option>
+                <option value="26.666667,87.283333">Itahari</option>
+                <option value="28.683333,80.600000">Dhangadhi</option>
+                <option value="28.916667,80.333333">Mahendranagar</option>
+            </select>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+    <div id="result">
+        <% if (locals.data) { %>
+            <h2>Weather in <%= data.name %></h2>
+            
+            
+            <div class="temperature">
+                Temperature:  
+                <%= (data.main.temp - 273.15).toFixed(2) %> °C (
+                <%= ((data.main.temp - 273.15) * 9/5 + 32).toFixed(2) %> °F)
+                <img src="https://openweathermap.org/img/wn/<%=data.weather[0].icon%>.png" alt="<%= data.weather[0].description %>">
+            </div>
+            
+            
+            <div class="condition">
+                <p><strong>Condition:</strong> <%= data.weather[0].description %></p>
+            </div>
+    
+            
+            <div class="weather-details">
+                
+                <p><strong>Humidity:</strong> <%= data.main.humidity %>%</p>
+    
+                
+                <p><strong>Wind Speed:</strong> <%= data.wind.speed %> m/s</p>
+                <p><strong>Wind Direction:</strong> <%= data.wind.deg %>°</p>
+    
+              
+                <p><strong>Cloud Cover:</strong> <%= data.clouds.all %>%</p>
+    
+                
+                <p><strong>Pressure:</strong> <%= data.main.pressure %> hPa</p>
+    
+               
+                <p><strong>Visibility:</strong> <%= data.visibility / 1000 %> km</p>
+            </div>
+    
+            
+            <div class="rain-data">
+                <% if (data.rain) { %>
+                    <p><strong>Rain (last 1 hour):</strong> <%= data.rain['1h'] %> mm</p>
+                    <p><strong>Rain (last 3 hours):</strong> <%= data.rain['3h'] %> mm</p>
+                <% } else { %>
+                    <p><strong>No rain in the last 3 hours.</strong></p>
+                <% } %>
+            </div>
+    
+            
+            <div class="sun-times">
+                <p><strong>Sunrise:</strong> <%= new Date(data.sys.sunrise * 1000).toLocaleTimeString() %></p>
+                <p><strong>Sunset:</strong> <%= new Date(data.sys.sunset * 1000).toLocaleTimeString() %></p>
+            </div>
+        <% } else { %>
+            <p class="no-data">No weather data available at this moment.</p>
+        <% } %>
+    </div>
+</body>
+</html>
